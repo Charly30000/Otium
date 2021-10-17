@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="states_list">
+        <item>Pendiente</item>
+        <item>Siguiendo</item>
+        <item>Leido</item>
+        <item>Favorito</item>
+        <item>Lo tengo</item>
+        <item>Abandonado</item>
+    </string-array>
+
+</resources>
