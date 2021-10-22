@@ -1,31 +1,34 @@
 package com.charly.otium.models.entities;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Embedded;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.charly.otium.models.converters.DateConverter;
 
 import java.util.Date;
 
-@Entity(tableName = "items_series", indices = {@Index(value = {"name"}, unique = true)})
+@Entity(tableName = "items_series", indices = {@Index(value = {"title"}, unique = true)})
 public class ItemSerieEntity {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public int itemSerieId;
 
     @ColumnInfo(name = "title")
     public String title;
 
     @ColumnInfo(name = "create_at")
+    @TypeConverters(DateConverter.class)
     public Date createAt;
 
     @ColumnInfo(name = "last_modification")
+    @TypeConverters(DateConverter.class)
     public Date lastModification;
 
-    @Embedded
-    @ColumnInfo(name = "type")
-    public TypeEntity type;
+    @ColumnInfo(name = "type_id")
+    // Referenced TypeEntity
+    public int typeId;
 
     @ColumnInfo(name = "season")
     public int season;
@@ -42,14 +45,12 @@ public class ItemSerieEntity {
     @ColumnInfo(name = "image")
     public String image;
 
-    public ItemSerieEntity(int id, String title, Date createAt, Date lastModification,
-                           TypeEntity type, int season, int chapter, String state,
-                           String annotation, String image) {
-        this.id = id;
+    public ItemSerieEntity(int itemSerieId, String title, Date createAt, Date lastModification, int typeId, int season, int chapter, String state, String annotation, String image) {
+        this.itemSerieId = itemSerieId;
         this.title = title;
         this.createAt = createAt;
         this.lastModification = lastModification;
-        this.type = type;
+        this.typeId = typeId;
         this.season = season;
         this.chapter = chapter;
         this.state = state;
@@ -57,26 +58,12 @@ public class ItemSerieEntity {
         this.image = image;
     }
 
-    public ItemSerieEntity(String title, Date createAt, Date lastModification,
-                           TypeEntity type, int season, int chapter, String state,
-                           String annotation, String image) {
-        this.title = title;
-        this.createAt = createAt;
-        this.lastModification = lastModification;
-        this.type = type;
-        this.season = season;
-        this.chapter = chapter;
-        this.state = state;
-        this.annotation = annotation;
-        this.image = image;
+    public int getItemSerieId() {
+        return itemSerieId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setItemSerieId(int itemSerieId) {
+        this.itemSerieId = itemSerieId;
     }
 
     public String getTitle() {
@@ -103,12 +90,12 @@ public class ItemSerieEntity {
         this.lastModification = lastModification;
     }
 
-    public TypeEntity getType() {
-        return type;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public void setType(TypeEntity type) {
-        this.type = type;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 
     public int getSeason() {

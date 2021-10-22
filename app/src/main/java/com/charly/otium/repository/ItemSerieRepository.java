@@ -40,9 +40,9 @@ public class ItemSerieRepository {
         });
     }
 
-    public void deleteById(int idItemSerie) {
+    public void delete(ItemSerieEntity itemSerieEntity) {
         OtiumDatabase.databaseWriteExecutor.execute(() -> {
-            itemSerieDao.deleteById(idItemSerie);
+            itemSerieDao.delete(itemSerieEntity);
         });
     }
 }

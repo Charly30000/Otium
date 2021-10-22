@@ -2,6 +2,7 @@ package com.charly.otium.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -18,12 +19,12 @@ public interface TypeDao {
     @Update
     void update(TypeEntity typeEntity);
 
-    @Query("DELETE FROM items_series WHERE id = :idItemSerie")
-    void deleteById(int idTypeEntity);
+    @Delete
+    void delete(TypeEntity typeEntity);
 
-    @Query("SELECT * FROM items_series ORDER BY last_modification ASC")
+    @Query("SELECT typeId, type FROM types")
     LiveData<List<TypeEntity>> getAll();
 
-    @Query("SELECT * FROM items_series WHERE id = :idItemSerie")
+    @Query("SELECT typeId, type FROM types WHERE typeId = :idTypeEntity")
     LiveData<TypeEntity> getById(int idTypeEntity);
 }

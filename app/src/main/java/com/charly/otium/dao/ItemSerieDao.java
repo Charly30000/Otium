@@ -19,12 +19,18 @@ public interface ItemSerieDao {
     @Update
     void update(ItemSerieEntity itemSerieEntity);
 
-    @Query("DELETE FROM items_series WHERE id = :idItemSerie")
-    void deleteById(int idItemSerie);
+    @Delete
+    void delete(ItemSerieEntity itemSerieEntity);
 
-    @Query("SELECT * FROM items_series ORDER BY last_modification ASC")
+    @Query("SELECT itemSerieId, title, create_at, last_modification, type_id, " +
+            "season, chapter, state, annotation, image " +
+            "FROM items_series " +
+            "ORDER BY last_modification ASC")
     LiveData<List<ItemSerieEntity>> getAll();
 
-    @Query("SELECT * FROM items_series WHERE id = :idItemSerie")
+    @Query("SELECT itemSerieId, title, create_at, last_modification, type_id, " +
+            "season, chapter, state, annotation, image " +
+            "FROM items_series " +
+            "WHERE itemSerieId = :idItemSerie")
     LiveData<ItemSerieEntity> getById(int idItemSerie);
 }

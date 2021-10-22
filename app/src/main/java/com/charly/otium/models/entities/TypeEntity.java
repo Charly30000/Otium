@@ -8,25 +8,22 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "types", indices = {@Index(value = {"type"}, unique = true)})
 public class TypeEntity {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public int typeId;
+
     @ColumnInfo(name = "type")
     public String type;
 
-    public TypeEntity(int id, String type) {
-        this.id = id;
+    public TypeEntity(int typeId, String type) {
+        this.typeId = typeId;
         this.type = type;
     }
 
-    public TypeEntity(String type) {
-        this.type = type;
+    public int getTypeId() {
+        return typeId;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public void setTypeId(int typeId) {
+        this.typeId = typeId;
     }
 
     public String getType() {
