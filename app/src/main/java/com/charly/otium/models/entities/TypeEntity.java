@@ -5,7 +5,9 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "types", indices = {@Index(value = {"type"}, unique = true)})
+import com.charly.otium.config.Config;
+
+@Entity(tableName = Config.TABLE_TYPES, indices = {@Index(value = {"type"}, unique = true)})
 public class TypeEntity {
     @PrimaryKey(autoGenerate = true)
     public int typeId;
@@ -13,8 +15,15 @@ public class TypeEntity {
     @ColumnInfo(name = "type")
     public String type;
 
+    public TypeEntity() {
+    }
+
     public TypeEntity(int typeId, String type) {
         this.typeId = typeId;
+        this.type = type;
+    }
+
+    public TypeEntity(String type) {
         this.type = type;
     }
 

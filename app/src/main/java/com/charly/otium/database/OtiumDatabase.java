@@ -6,6 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.charly.otium.config.Config;
 import com.charly.otium.dao.ItemSerieDao;
 import com.charly.otium.dao.TypeDao;
 import com.charly.otium.models.entities.ItemSerieEntity;
@@ -29,7 +30,7 @@ public abstract class OtiumDatabase extends RoomDatabase {
             synchronized (OtiumDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            OtiumDatabase.class, "otium_database")
+                            OtiumDatabase.class, Config.DATABASE_NAME)
                     .build();
                 }
             }

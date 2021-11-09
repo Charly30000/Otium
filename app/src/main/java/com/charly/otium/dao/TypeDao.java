@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -14,13 +15,13 @@ import java.util.List;
 @Dao
 public interface TypeDao {
     @Insert
-    void insert(TypeEntity typeEntity);
+    long insert(TypeEntity typeEntity);
 
     @Update
-    void update(TypeEntity typeEntity);
+    int update(TypeEntity typeEntity);
 
     @Delete
-    void delete(TypeEntity typeEntity);
+    int delete(TypeEntity typeEntity);
 
     @Query("SELECT typeId, type FROM types")
     LiveData<List<TypeEntity>> getAll();

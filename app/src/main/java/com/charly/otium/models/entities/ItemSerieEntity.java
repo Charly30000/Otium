@@ -6,11 +6,12 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.charly.otium.config.Config;
 import com.charly.otium.models.converters.DateConverter;
 
 import java.util.Date;
 
-@Entity(tableName = "items_series", indices = {@Index(value = {"title"}, unique = true)})
+@Entity(tableName = Config.TABLE_ITEM_SERIE, indices = {@Index(value = {"title"}, unique = true)})
 public class ItemSerieEntity {
     @PrimaryKey(autoGenerate = true)
     public int itemSerieId;
@@ -45,7 +46,12 @@ public class ItemSerieEntity {
     @ColumnInfo(name = "image")
     public String image;
 
-    public ItemSerieEntity(int itemSerieId, String title, Date createAt, Date lastModification, int typeId, int season, int chapter, String state, String annotation, String image) {
+    public ItemSerieEntity() {
+    }
+
+    public ItemSerieEntity(int itemSerieId, String title, Date createAt, Date lastModification,
+                           int typeId, int season, int chapter, String state,
+                           String annotation, String image) {
         this.itemSerieId = itemSerieId;
         this.title = title;
         this.createAt = createAt;
