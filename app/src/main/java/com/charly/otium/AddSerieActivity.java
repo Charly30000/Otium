@@ -48,7 +48,6 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //createTypes();
         initRepository();
         initArrays();
         findViews();
@@ -84,17 +83,7 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
         arrayListTypesEntity = new ArrayList<>();
     }
 
-    private void createTypes() {
-        try {
-            typeRepository.insert(new TypeEntity("Libros"));
-            typeRepository.insert(new TypeEntity("Series"));
-        } catch (Exception ex) {
-            System.err.println(ex.getStackTrace());
-        }
-    }
-
     private void loadTypes() {
-
         types = typeRepository.getAll();
         types.observe(this, new Observer<List<TypeEntity>>() {
             @Override
@@ -168,6 +157,8 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
                 saveSerie();
                 break;
             case R.id.buttonDelete:
+                Toast.makeText(AddSerieActivity.this,
+                        "Metodo no implementado", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

@@ -26,6 +26,10 @@ public class TypeRepository {
         return typeDao.getById(id);
     }
 
+    public LiveData<Integer> getCountTypes() {
+        return typeDao.getCountTypes();
+    };
+
     public void insert(TypeEntity typeEntity) {
         OtiumDatabase.databaseWriteExecutor.execute(() -> {
             typeDao.insert(typeEntity);

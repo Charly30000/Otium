@@ -28,4 +28,7 @@ public interface TypeDao {
 
     @Query("SELECT typeId, type FROM types WHERE typeId = :idTypeEntity")
     LiveData<TypeEntity> getById(int idTypeEntity);
+
+    @Query("SELECT COUNT(typeId) FROM types")
+    LiveData<Integer> getCountTypes();
 }
