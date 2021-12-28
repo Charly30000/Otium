@@ -24,8 +24,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
-        initRepository();
-        checkCreateTypes();
+        //initRepository();
+        //checkCreateTypes();
+        initDashboardActivity();
     }
 
     private void initRepository() {
