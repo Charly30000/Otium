@@ -14,14 +14,16 @@ import java.util.List;
 
 public class ItemSerieRepository {
     private ItemSerieDao itemSerieDao;
+    private LiveData<List<ItemSerieEntity>> allItemSerieEntity;
 
     public ItemSerieRepository(Application application) {
         OtiumDatabase db = OtiumDatabase.getDatabase(application);
         itemSerieDao = db.getItemSerieDao();
+        allItemSerieEntity = itemSerieDao.getAll();
     }
 
     public LiveData<List<ItemSerieEntity>> getAll() {
-        return itemSerieDao.getAll();
+        return allItemSerieEntity;
     }
 
     public LiveData<ItemSerieEntity> getById(int id) {

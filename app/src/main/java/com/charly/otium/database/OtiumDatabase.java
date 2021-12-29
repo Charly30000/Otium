@@ -2,6 +2,7 @@ package com.charly.otium.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -15,6 +16,7 @@ import com.charly.otium.dao.TypeDao;
 import com.charly.otium.models.entities.ItemSerieEntity;
 import com.charly.otium.models.entities.TypeEntity;
 
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,9 +57,11 @@ public abstract class OtiumDatabase extends RoomDatabase {
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
 
         private TypeDao typeDao;
+        private ItemSerieDao itemSerieDao;
 
         private PopulateDbAsyncTask(OtiumDatabase db) {
             typeDao = db.getTypeDao();
+            itemSerieDao = db.getItemSerieDao();
         }
 
         @Override
@@ -70,6 +74,29 @@ public abstract class OtiumDatabase extends RoomDatabase {
             typeDao.insert(new TypeEntity(6,"FanFic"));
             typeDao.insert(new TypeEntity(7,"Videojuego"));
             typeDao.insert(new TypeEntity(8,"Otro"));
+
+            //Test
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 1", new Date(), new Date(),
+                    1, 1, 2, "Lo tengo", "aaaaa", ""));
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 2", new Date(), new Date(),
+                    3, 5, 965, "Lo tengo", "", ""));
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 3", new Date(), new Date(),
+                    4, 256, 1023, "Lo tengo", "", ""));
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 4", new Date(), new Date(),
+                    6, 1, 2, "Lo tengo", "", ""));
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 5", new Date(), new Date(),
+                    7, 1, 2, "Lo tengo", "", ""));
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 6", new Date(), new Date(),
+                    2, 1, 2, "Lo tengo", "", ""));
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 7", new Date(), new Date(),
+                    1, 1, 2, "Lo tengo", "", ""));
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 8", new Date(), new Date(),
+                    1, 1, 2, "Lo tengo", "", ""));
+            itemSerieDao.insert(new ItemSerieEntity(0, "Test 9", new Date(), new Date(),
+                    1, 1, 2, "Lo tengo", "", ""));
+
+            Log.d("info", "Base de datos rellenada");
+
             return null;
         }
     }

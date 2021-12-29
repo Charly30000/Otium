@@ -15,6 +15,7 @@ import com.charly.otium.repository.TypeRepository;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ItemSerieRepository itemSerieRepository;
     private TypeRepository typeRepository;
     private LiveData<Integer> countTypes;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initRepository() {
+        itemSerieRepository = new ItemSerieRepository(getApplication());
         typeRepository = new TypeRepository(getApplication());
     }
 

@@ -12,14 +12,16 @@ import java.util.List;
 
 public class TypeRepository {
     private TypeDao typeDao;
+    private LiveData<List<TypeEntity>> allTypeEntity;
 
     public TypeRepository(Application application) {
         OtiumDatabase db = OtiumDatabase.getDatabase(application);
         typeDao = db.getTypeDao();
+        allTypeEntity = typeDao.getAll();
     }
 
     public LiveData<List<TypeEntity>> getAll() {
-        return typeDao.getAll();
+        return allTypeEntity;
     }
 
     public LiveData<TypeEntity> getById(int id) {
