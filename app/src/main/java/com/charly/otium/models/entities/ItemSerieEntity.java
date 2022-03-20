@@ -26,10 +26,13 @@ public class ItemSerieEntity {
     @ColumnInfo(name = "last_modification")
     @TypeConverters(DateConverter.class)
     public Date lastModification;
-
+    /*
     @ColumnInfo(name = "type_id")
     // Referenced TypeEntity
     public int typeId;
+    */
+    @ColumnInfo( name = "type")
+    public String type;
 
     @ColumnInfo(name = "season")
     public int season;
@@ -50,18 +53,26 @@ public class ItemSerieEntity {
     }
 
     public ItemSerieEntity(int itemSerieId, String title, Date createAt, Date lastModification,
-                           int typeId, int season, int chapter, String state,
+                           String type, int season, int chapter, String state,
                            String annotation, String image) {
         this.itemSerieId = itemSerieId;
         this.title = title;
         this.createAt = createAt;
         this.lastModification = lastModification;
-        this.typeId = typeId;
+        this.type = type;
         this.season = season;
         this.chapter = chapter;
         this.state = state;
         this.annotation = annotation;
         this.image = image;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getItemSerieId() {
@@ -95,7 +106,7 @@ public class ItemSerieEntity {
     public void setLastModification(Date lastModification) {
         this.lastModification = lastModification;
     }
-
+/*
     public int getTypeId() {
         return typeId;
     }
@@ -103,7 +114,7 @@ public class ItemSerieEntity {
     public void setTypeId(int typeId) {
         this.typeId = typeId;
     }
-
+*/
     public int getSeason() {
         return season;
     }

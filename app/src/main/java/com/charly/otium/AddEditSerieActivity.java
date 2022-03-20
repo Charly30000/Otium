@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,6 +14,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.charly.otium.common.State;
+import com.charly.otium.common.Type;
 import com.charly.otium.models.entities.ItemSerieEntity;
 import com.charly.otium.models.entities.TypeEntity;
 import com.charly.otium.repository.ItemSerieRepository;
@@ -19,27 +23,38 @@ import com.charly.otium.repository.TypeRepository;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-public class AddSerieActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddEditSerieActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private EditText editTextTextTitle, editTextNote,
+    private EditText editTextTitle, editTextNote,
             editTextNumberSeason, editTextNumberChapter;
     private Button buttonSubstractSeason, buttonAddSeason, buttonSubstractChapter,
             buttonAddChapter, buttonSave, buttonDelete;
     private Spinner spinnerState, spinnerType;
 
-    private TypeRepository typeRepository;
-    private LiveData<List<TypeEntity>> types;
+    //private TypeRepository typeRepository;
+    //private LiveData<List<TypeEntity>> types;
 
     private ItemSerieRepository itemSerieRepository;
 
     private ArrayAdapter<String> arrayAdapterTypes;
     private ArrayList<String> arrayListTypesString;
-    private ArrayList<TypeEntity> arrayListTypesEntity;
+    //private ArrayList<TypeEntity> arrayListTypesEntity;
 
+    private ArrayAdapter<String> arrayAdapterItemSerie;
+    private ArrayList<String> arrayListItemSerieString;
+
+    public static final String EXTRA_IS_MODIFYING = "isModifying";
+    public static final String EXTRA_ID_ITEM_SERIE = "idItemSerie";
+    private int idItemSerieModifying;
     private boolean isModifying;
+    private ItemSerieEntity itemSerieModifying;
+
+    private LiveData<ItemSerieEntity> itemSerieEntityLiveData;
+    private boolean isDeleting = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,39 +66,70 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
         initRepository();
         initArrays();
         findViews();
+        loadTypesSpinner();
+        loadItemSeriesSpinner();
         checkIsModifying();
         clickListener();
-        loadTypes();
     }
 
     private void initRepository() {
-        typeRepository = new TypeRepository(getApplication());
+        //typeRepository = new TypeRepository(getApplication());
         itemSerieRepository = new ItemSerieRepository(getApplication());
     }
 
     private void checkIsModifying() {
-        isModifying = false;
-        Bundle bundle = getIntent().getExtras();
-        try {
-            boolean checkIsModifying = bundle.getBoolean("isModifying");
-            isModifying = checkIsModifying;
-        } catch (NullPointerException ex) {
-            System.out.println("No existe el parametro, " +
-                    "se supondrá que no se esta modificando");
-        } catch (Exception ex) {
-            System.err.println(ex.getStackTrace().toString());
+        Intent intent = getIntent();
+        this.isModifying = false;
+        if (intent.hasExtra(EXTRA_IS_MODIFYING)) {
+            this.isModifying = intent.getBooleanExtra(EXTRA_IS_MODIFYING, false);
         }
-        if (isModifying) {
+        this.idItemSerieModifying = -1;
+        if (intent.hasExtra(EXTRA_ID_ITEM_SERIE)) {
+            this.idItemSerieModifying = intent.getIntExtra(EXTRA_ID_ITEM_SERIE, -1);
+        }
+
+        if (this.isModifying && this.idItemSerieModifying == -1) {
+            Toast.makeText(getApplicationContext(), "No se encuentra el objeto a modificar",
+                    Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        if (this.isModifying) {
             buttonDelete.setVisibility(View.VISIBLE);
+            populateParams(this.idItemSerieModifying);
         }
+    }
+
+    private void populateParams(int id) {
+        itemSerieEntityLiveData = itemSerieRepository.getById(id);
+        itemSerieEntityLiveData.observe(this, new Observer<ItemSerieEntity>() {
+            @Override
+            public void onChanged(ItemSerieEntity itemSerieEntity) {
+                if (!isDeleting) {
+                    itemSerieModifying = itemSerieEntity;
+                    editTextTitle.setText(itemSerieEntity.getTitle());
+                    editTextNumberSeason.setText(String.valueOf(itemSerieEntity.getSeason()));
+                    editTextNumberChapter.setText(String.valueOf(itemSerieEntity.getChapter()));
+                    editTextNote.setText(itemSerieEntity.getAnnotation());
+                    spinnerState.setSelection(arrayAdapterItemSerie.getPosition(itemSerieEntity.getState()));
+                    spinnerType.setSelection(arrayAdapterTypes.getPosition(itemSerieEntity.getType()));
+                }
+
+            }
+        });
     }
 
     private void initArrays() {
-        arrayListTypesString = new ArrayList<>();
-        arrayListTypesEntity = new ArrayList<>();
+        arrayListTypesString = new Type().getAll();
+        //arrayListTypesEntity = new ArrayList<>();
+        arrayListItemSerieString = new State().getAll();
     }
 
-    private void loadTypes() {
+    private void loadTypesSpinner() {
+        arrayAdapterTypes = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_spinner_dropdown_item, arrayListTypesString);
+        spinnerType.setAdapter(arrayAdapterTypes);
+        /*
         types = typeRepository.getAll();
         types.observe(this, new Observer<List<TypeEntity>>() {
             @Override
@@ -102,11 +148,18 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
                 }
             }
         });
+         */
+    }
+
+    private void loadItemSeriesSpinner() {
+        this.arrayAdapterItemSerie = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_spinner_dropdown_item, arrayListItemSerieString);
+        spinnerState.setAdapter(arrayAdapterItemSerie);
     }
 
     private void findViews() {
         // EditText
-        editTextTextTitle = findViewById(R.id.editTextTextTitle);
+        editTextTitle = findViewById(R.id.editTextTitle);
         editTextNote = findViewById(R.id.editTextNote);
         editTextNumberSeason = findViewById(R.id.editTextNumberSeason);
         editTextNumberChapter = findViewById(R.id.editTextNumberChapter);
@@ -157,17 +210,28 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
                 saveSerie();
                 break;
             case R.id.buttonDelete:
-                Toast.makeText(AddSerieActivity.this,
-                        "Metodo no implementado", Toast.LENGTH_SHORT).show();
+                deleteSerie();
                 break;
         }
     }
 
+    private void deleteSerie() {
+        isDeleting = true;
+        itemSerieRepository.delete(itemSerieModifying);
+        Toast.makeText(this, "Eliminado correctamente", Toast.LENGTH_SHORT)
+                .show();
+        finish();
+
+    }
+
     private void saveSerie() {
-        String title = editTextTextTitle.getText().toString();
-        String stringSeason = editTextNumberSeason.getText().toString();
-        String stringChapter = editTextNumberChapter.getText().toString();
-        String stringState = spinnerState.getSelectedItem().toString();
+        String title = editTextTitle.getText().toString().trim();
+        String stringSeason = editTextNumberSeason.getText().toString().trim();
+        String stringChapter = editTextNumberChapter.getText().toString().trim();
+        String stringState = spinnerState.getSelectedItem().toString().trim();
+        String stringType = spinnerType.getSelectedItem().toString();
+        String annotation = editTextNote.getText().toString().trim();
+
         int numberSeason = 1;
         int numberChapter = 1;
         if (spinnerType.getSelectedItem() == null) {
@@ -175,9 +239,7 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
                     "No hay tipos en la BBDD", Snackbar.LENGTH_LONG).show();
             return;
         }
-        String stringType = spinnerType.getSelectedItem().toString();
-        String annotation = editTextNote.getText().toString();
-
+        /*
         int typeId = findType(stringType);
         if (typeId == -1) {
             Snackbar.make(findViewById(android.R.id.content),
@@ -185,9 +247,14 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
                     Snackbar.LENGTH_LONG).show();
             return;
         }
-
-        boolean isOk = checkStringValues(title, stringSeason,
-                stringChapter, stringState, stringType);
+        */
+        boolean isOk = checkStringValues(
+                title,
+                stringSeason,
+                stringChapter,
+                stringState,
+                stringType
+        );
         if (!isOk) {
             Snackbar.make(findViewById(android.R.id.content),
                     "Completa todos los campos", Snackbar.LENGTH_LONG).show();
@@ -207,24 +274,29 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
                     Snackbar.LENGTH_LONG).show();
             return;
         }
-
+        Date now = new Date();
         if (!isModifying) {
-            Date now = new Date();
             ItemSerieEntity saveItemSerie = new ItemSerieEntity(0, title, now, now,
-                    typeId, numberSeason, numberChapter, stringState, annotation, "");
+                    stringType, numberSeason, numberChapter, stringState, annotation, "");
+
             itemSerieRepository.insert(saveItemSerie);
+
             Toast.makeText(this, "Guardado correctamente", Toast.LENGTH_SHORT)
                     .show();
+
             finish();
         } else {
-            // TODO: Implementar para modificar
-            Snackbar.make(findViewById(android.R.id.content),
-                    "Metodo no implementado",
-                    Snackbar.LENGTH_LONG).show();
+            ItemSerieEntity modifyItemSerie = new ItemSerieEntity(itemSerieModifying.getItemSerieId(), title,
+                    itemSerieModifying.getCreateAt(), now,
+                    stringType, numberSeason, numberChapter, stringState, annotation, "");
+            itemSerieRepository.update(modifyItemSerie);
+            Toast.makeText(this, "Modificado correctamente", Toast.LENGTH_SHORT)
+                    .show();
+            finish();
         }
 
     }
-
+/*
     private int findType(String stringType) {
         int id = -1;
         for (TypeEntity et: arrayListTypesEntity) {
@@ -234,7 +306,7 @@ public class AddSerieActivity extends AppCompatActivity implements View.OnClickL
         }
         return id;
     }
-
+*/
     private boolean checkStringValues(String... values) {
         for (String s: values) {
             if (s == null || s.isEmpty()) {

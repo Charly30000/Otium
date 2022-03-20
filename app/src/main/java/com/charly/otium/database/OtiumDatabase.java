@@ -10,6 +10,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.charly.otium.common.State;
 import com.charly.otium.config.Config;
 import com.charly.otium.dao.ItemSerieDao;
 import com.charly.otium.dao.TypeDao;
@@ -56,16 +57,17 @@ public abstract class OtiumDatabase extends RoomDatabase {
 
     private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
 
-        private TypeDao typeDao;
+        //private TypeDao typeDao;
         private ItemSerieDao itemSerieDao;
 
         private PopulateDbAsyncTask(OtiumDatabase db) {
-            typeDao = db.getTypeDao();
+            //typeDao = db.getTypeDao();
             itemSerieDao = db.getItemSerieDao();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
+            /*
             typeDao.insert(new TypeEntity(1,"Serie"));
             typeDao.insert(new TypeEntity(2,"Anime"));
             typeDao.insert(new TypeEntity(3,"Pelicula"));
@@ -74,26 +76,26 @@ public abstract class OtiumDatabase extends RoomDatabase {
             typeDao.insert(new TypeEntity(6,"FanFic"));
             typeDao.insert(new TypeEntity(7,"Videojuego"));
             typeDao.insert(new TypeEntity(8,"Otro"));
-
+            */
             //Test
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 1", new Date(), new Date(),
-                    1, 1, 2, "Lo tengo", "aaaaa", ""));
+                    "Serie", 1, 2, State.ABANDONADO, "aaaaa", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 2", new Date(), new Date(),
-                    3, 5, 965, "Lo tengo", "", ""));
+                    "Pelicula", 5, 965, State.FAVORITO, "", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 3", new Date(), new Date(),
-                    4, 256, 1023, "Lo tengo", "", ""));
+                    "Manga", 256, 1023, State.LEIDO, "", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 4", new Date(), new Date(),
-                    6, 1, 2, "Lo tengo", "", ""));
+                    "FanFic", 1, 2, State.LO_TENGO, "", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 5", new Date(), new Date(),
-                    7, 1, 2, "Lo tengo", "", ""));
+                    "Videojuego", 1, 2, State.PENDIENTE, "", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 6", new Date(), new Date(),
-                    2, 1, 2, "Lo tengo", "", ""));
+                    "Anime", 1, 2, State.SIGUIENDO, "", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 7", new Date(), new Date(),
-                    1, 1, 2, "Lo tengo", "", ""));
+                    "FanFic", 1, 2, State.SIGUIENDO, "", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 8", new Date(), new Date(),
-                    1, 1, 2, "Lo tengo", "", ""));
+                    "Otro", 1, 2, State.PENDIENTE, "", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 9", new Date(), new Date(),
-                    1, 1, 2, "Lo tengo", "", ""));
+                    "Libro", 1, 2, State.FAVORITO, "", ""));
 
             Log.d("info", "Base de datos rellenada");
 

@@ -44,7 +44,7 @@ public class TypeRepository {
         });
     }
 
-    public void deleteById(TypeEntity typeEntity) {
+    public void delete(TypeEntity typeEntity) {
         OtiumDatabase.databaseWriteExecutor.execute(() -> {
             typeDao.delete(typeEntity);
         });

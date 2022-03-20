@@ -7,6 +7,9 @@ import androidx.room.PrimaryKey;
 
 import com.charly.otium.config.Config;
 
+/**
+ * No se esta utilizando esta clase actualmente
+ */
 @Entity(tableName = Config.TABLE_TYPES, indices = {@Index(value = {"type"}, unique = true)})
 public class TypeEntity {
     @PrimaryKey(autoGenerate = true)

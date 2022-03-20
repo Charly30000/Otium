@@ -10,15 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Otium">
         <activity
-            android:name=".AddSerieActivity"
-            android:exported="false" />
+            android:name=".AddEditSerieActivity"
+            android:exported="false"
+            android:parentActivityName=".DashboardActivity"/>
         <activity
             android:name=".DashboardActivity"
-            android:exported="false"
-            android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.Otium.NoActionBar" />
-        <activity
-            android:name=".Dashboard"
             android:exported="false"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.Otium.NoActionBar" />

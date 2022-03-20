@@ -22,13 +22,13 @@ public interface ItemSerieDao {
     @Delete
     void delete(ItemSerieEntity itemSerieEntity);
 
-    @Query("SELECT itemSerieId, title, create_at, last_modification, type_id, " +
+    @Query("SELECT itemSerieId, title, create_at, last_modification, type, " +
             "season, chapter, state, annotation, image " +
             "FROM items_series " +
-            "ORDER BY last_modification ASC")
+            "ORDER BY last_modification DESC")
     LiveData<List<ItemSerieEntity>> getAll();
 
-    @Query("SELECT itemSerieId, title, create_at, last_modification, type_id, " +
+    @Query("SELECT itemSerieId, title, create_at, last_modification, type, " +
             "season, chapter, state, annotation, image " +
             "FROM items_series " +
             "WHERE itemSerieId = :idItemSerie")

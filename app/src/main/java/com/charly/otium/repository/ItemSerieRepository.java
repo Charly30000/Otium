@@ -10,6 +10,7 @@ import com.charly.otium.database.OtiumDatabase;
 import com.charly.otium.models.entities.ItemSerieEntity;
 import com.charly.otium.models.entities.TypeEntity;
 
+import java.util.Date;
 import java.util.List;
 
 public class ItemSerieRepository {
@@ -38,6 +39,7 @@ public class ItemSerieRepository {
 
     public void update(ItemSerieEntity itemSerieEntity) {
         OtiumDatabase.databaseWriteExecutor.execute(() -> {
+            itemSerieEntity.setLastModification(new Date());
             itemSerieDao.update(itemSerieEntity);
         });
     }
