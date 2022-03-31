@@ -1,9 +1,11 @@
 package com.charly.otium;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -216,11 +218,26 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void deleteSerie() {
-        isDeleting = true;
-        itemSerieRepository.delete(itemSerieModifying);
-        Toast.makeText(this, "Eliminado correctamente", Toast.LENGTH_SHORT)
-                .show();
-        finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("¿Estás seguro de eliminarlo?")
+                .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        isDeleting = true;
+                        itemSerieRepository.delete(itemSerieModifying);
+                        Toast.makeText(getApplicationContext(), "Eliminado correctamente", Toast.LENGTH_SHORT)
+                                .show();
+                        finish();
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog titulo = builder.create();
+        titulo.setTitle("¡Estas a punto de eliminarlo!");
+        titulo.show();
 
     }
 
