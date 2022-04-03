@@ -219,7 +219,7 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
 
     private void deleteSerie() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("¿Estás seguro de eliminarlo?")
+        builder.setMessage("¿Estás seguro de querer eliminarlo? No podrás volver a recuperarlo")
                 .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         isDeleting = true;
@@ -270,11 +270,13 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
                 stringSeason,
                 stringChapter,
                 stringState,
-                stringType
+                stringType,
+                annotation
         );
         if (!isOk) {
             Snackbar.make(findViewById(android.R.id.content),
-                    "Completa todos los campos", Snackbar.LENGTH_LONG).show();
+                    "Completa todos los campos, el caracter \"\\\" esta prohibido",
+                    Snackbar.LENGTH_LONG).show();
             return;
         }
         try {
@@ -326,7 +328,7 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
 */
     private boolean checkStringValues(String... values) {
         for (String s: values) {
-            if (s == null || s.isEmpty()) {
+            if (s == null || s.isEmpty() || s.contains("\\")) {
                 return false;
             }
         }

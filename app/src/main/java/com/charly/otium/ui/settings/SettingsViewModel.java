@@ -1,19 +1,29 @@
 package com.charly.otium.ui.settings;
 
+import android.app.Application;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class SettingsViewModel extends ViewModel {
+import com.charly.otium.models.entities.ItemSerieEntity;
+import com.charly.otium.repository.ItemSerieRepository;
 
-    private MutableLiveData<String> mText;
+import java.util.List;
 
-    public SettingsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+public class SettingsViewModel extends AndroidViewModel {
+
+    private ItemSerieRepository itemSerieRepository;
+    private LiveData<List<ItemSerieEntity>> allItemSerieEntity;
+
+    public SettingsViewModel(@NonNull Application application) {
+        super(application);
+        itemSerieRepository = new ItemSerieRepository(application);
+        allItemSerieEntity = itemSerieRepository.getAll();
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public LiveData<List<ItemSerieEntity>> getAllItemSerieEntity() {
+        return allItemSerieEntity;
     }
+
 }

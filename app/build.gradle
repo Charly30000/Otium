@@ -49,6 +49,4 @@ dependencies {
     def room_version = "2.3.0"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
-    // https://mvnrepository.com/artifact/com.opencsv/opencsv
-    implementation 'com.opencsv:opencsv:5.6'
 }

@@ -1,68 +1,68 @@
 package com.charly.otium.file;
 
+import android.net.Uri;
+
+import androidx.fragment.app.FragmentActivity;
+
+import com.charly.otium.exceptions.OtiumException;
 import com.charly.otium.models.entities.ItemSerieEntity;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.HeaderColumnNameTranslateMappingStrategy;
-import com.opencsv.exceptions.CsvException;
 
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.List;
-import java.util.Map;
 
-public class CSVFile implements FileRules {
+public class CSVFile implements IFileRules {
 
     @Override
-    public void writeFile(String filename, List<ItemSerieEntity> data) throws IOException {
-        String csv = filename;
-        CSVWriter writer = new CSVWriter(new FileWriter(csv));
-        String[] header= new String[]{"title","createAt","lastModification","type", "season",
-                "chapter", "state", "annotation", "image"};
-        writer.writeNext(header);
-        List<String[]> allData = new ArrayList<String[]>();
+    public void writeFile(Uri uri, List<ItemSerieEntity> data, FragmentActivity activity) throws IOException, OtiumException {
+        OutputStream outputStream;
+        outputStream = activity.getContentResolver().openOutputStream(uri);
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outputStream));
+
+        String header = "title,createAt,lastModification,type,season,chapter,state,annotation,image\n";
+        bw.write(header);
+
         for (ItemSerieEntity its: data) {
-            String[] dataSave = new String[]{its.getTitle(), its.getCreateAt().toString(),
-                    its.getLastModification().toString(), its.getType(), String.valueOf(its.getSeason()),
-                    String.valueOf(its.getChapter()), its.getState(), its.getAnnotation(), its.getImage()};
-            allData.add(dataSave);
+            ItemSerieEntity itsGood = containsAndReplaceSpecialCharacter(its);
+            if (itsGood == null) {
+                throw new OtiumException("Por favor, elimina el caracter especial \"\\\". El archivo no se guardara");
+            }
+            String itsResult = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s%n",
+                    itsGood.getTitle(), itsGood.getCreateAt().toString(),
+                    itsGood.getLastModification().toString(), itsGood.getType(), itsGood.getSeason(),
+                    itsGood.getChapter(), itsGood.getState(), itsGood.getAnnotation(), itsGood.getImage());
+            bw.write(itsResult);
         }
-        writer.writeAll(allData);
-        writer.close();
+
+        bw.flush();
+        bw.close();
+
     }
 
     @Override
-    public List<ItemSerieEntity> readFile(String filename) throws IOException {
-        List<ItemSerieEntity> result = new ArrayList<>();
-        Map mapping = new HashMap();
-        mapping.put("title", "title");
-        mapping.put("createAt", "createAt");
-        mapping.put("lastModification", "lastModification");
-        mapping.put("type", "type");
-        mapping.put("season", "season");
-        mapping.put("chapter", "chapter");
-        mapping.put("state", "state");
-        mapping.put("annotation", "annotation");
-        mapping.put("image", "image");
+    public List<ItemSerieEntity> readFile(String filename) throws IOException, OtiumException {
+        return null;
+    }
 
-        HeaderColumnNameTranslateMappingStrategy strategy = new HeaderColumnNameTranslateMappingStrategy();
-        strategy.setType(ItemSerieEntity.class);
-        strategy.setColumnMapping(mapping);
-
-        CSVReader csvReader = new CSVReader(new FileReader(filename));
-        CsvToBean csvToBean = new CsvToBean();
-        csvToBean.setMappingStrategy(strategy);
-        csvToBean.setCsvReader(csvReader);
-        List<ItemSerieEntity> list = csvToBean.parse();
-
-        for (ItemSerieEntity its: list) {
-            result.add(its);
+    private ItemSerieEntity containsAndReplaceSpecialCharacter(ItemSerieEntity its) {
+        if (its.getTitle().contains("\\") || its.getType().contains("\\") || its.getState().contains("\\")
+                || its.getAnnotation().contains("\\") || its.getImage().contains("\\")) {
+            return null;
         }
+        ItemSerieEntity itemSerieEntity = new ItemSerieEntity(its.getItemSerieId(),
+                its.getTitle().replace("\n", "\\n").replace(",", "\\c").trim(),
+                its.getCreateAt(),
+                its.getLastModification(),
+                its.getType().replace("\n", "\\n").replace(",", "\\c").trim(),
+                its.getSeason(),
+                its.getChapter(),
+                its.getState().replace("\n", "\\n").replace(",", "\\c").trim(),
+                its.getAnnotation().replace("\n", "\\n").replace(",", "\\c").trim(),
+                its.getImage().replace("\n", "\\n").replace(",", "\\c").trim()
+        );
 
-        return result;
+        return itemSerieEntity;
     }
 }
