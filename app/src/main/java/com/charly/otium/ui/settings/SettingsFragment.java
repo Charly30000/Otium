@@ -115,6 +115,7 @@ public class SettingsFragment extends Fragment {
                                         "Ha ocurrido un error: " + e.getMessage(),
                                         Snackbar.LENGTH_LONG).show();
                             } catch (Exception e) {
+                                e.printStackTrace();
                                 Snackbar.make(binding.getRoot(),
                                         "Ha ocurrido un error un error inesperado: " + e.getMessage(),
                                         Snackbar.LENGTH_LONG).show();

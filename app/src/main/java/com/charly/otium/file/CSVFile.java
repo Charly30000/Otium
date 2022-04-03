@@ -11,7 +11,10 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 public class CSVFile implements IFileRules {
 
@@ -29,10 +32,15 @@ public class CSVFile implements IFileRules {
             if (itsGood == null) {
                 throw new OtiumException("Por favor, elimina el caracter especial \"\\\". El archivo no se guardara");
             }
-            String itsResult = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s%n",
-                    itsGood.getTitle(), itsGood.getCreateAt().toString(),
-                    itsGood.getLastModification().toString(), itsGood.getType(), itsGood.getSeason(),
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String createAtDate = sdf.format(its.getCreateAt());
+            String lastModifiedDate = sdf.format(its.getLastModification());
+
+            String itsResult = String.format("%s,%s,%s,%s,%d,%d,%s,%s,%s%n",
+                    itsGood.getTitle(), createAtDate, lastModifiedDate,
+                    itsGood.getType(), itsGood.getSeason(),
                     itsGood.getChapter(), itsGood.getState(), itsGood.getAnnotation(), itsGood.getImage());
+
             bw.write(itsResult);
         }
 
@@ -43,6 +51,11 @@ public class CSVFile implements IFileRules {
 
     @Override
     public List<ItemSerieEntity> readFile(String filename) throws IOException, OtiumException {
+        /*Convert String to Date
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+        String dateInString = "31-08-1982 10:20:56";
+        Date date = sdf.parse(dateInString);
+        System.out.println(date); //Tue Aug 31 10:20:56 SGT 1982*/
         return null;
     }
 
