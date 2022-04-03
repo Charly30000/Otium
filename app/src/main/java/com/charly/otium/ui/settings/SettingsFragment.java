@@ -83,7 +83,7 @@ public class SettingsFragment extends Fragment {
 
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/csv");
+        intent.setType("text/comma-separated-values");
         intent.putExtra(Intent.EXTRA_TITLE, "invoice.csv");
         intent = Intent.createChooser(intent, "Elige la ubicacion");
 
@@ -98,7 +98,6 @@ public class SettingsFragment extends Fragment {
                 public void onActivityResult(ActivityResult result) {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Intent data = result.getData();
-
                         if (data != null && data.getData() != null) {
                             try {
                                 List<ItemSerieEntity> allItemSerie = new ArrayList<>();
