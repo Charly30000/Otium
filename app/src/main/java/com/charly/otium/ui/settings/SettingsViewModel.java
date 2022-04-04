@@ -26,4 +26,16 @@ public class SettingsViewModel extends AndroidViewModel {
         return allItemSerieEntity;
     }
 
+    public void insertItemSerieEntity(ItemSerieEntity itemSerieEntity) {
+        itemSerieRepository.insert(itemSerieEntity);
+    }
+
+    public void updateItemSerieEntity(ItemSerieEntity itemSerieEntity) {
+        itemSerieRepository.update(itemSerieEntity);
+    }
+
+    public void deleteItemSerieEntity(ItemSerieEntity itemSerieEntity) {
+        itemSerieRepository.delete(itemSerieEntity);
+    }
+
 }

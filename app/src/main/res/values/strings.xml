@@ -34,4 +34,5 @@
     <string name="type">Tipo</string>
     <string name="button_delete">Eliminar</string>
     <string name="btn_createCsv">Crear archivo CSV</string>
+    <string name="btnReadCsv">Leer archivo CSV</string>
 </resources>
