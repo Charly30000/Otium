@@ -33,6 +33,8 @@
     <string name="state">Estado</string>
     <string name="type">Tipo</string>
     <string name="button_delete">Eliminar</string>
-    <string name="btn_createCsv">Crear archivo CSV</string>
-    <string name="btnReadCsv">Leer archivo CSV</string>
+    <string name="btn_createCsv">Exportar archivo CSV</string>
+    <string name="btn_read_csv">Importar archivo CSV</string>
+    <string name="btn_create_json">Exportar archivo Json (Recomendado)</string>
+    <string name="btn_read_json">Importar archivo Json</string>
 </resources>

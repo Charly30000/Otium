@@ -32,6 +32,7 @@ import java.util.TimeZone;
 public class CSVFile implements IFileRules {
 
     private static final String DATE_FORMAT = "dd/MM/yyyy HH:mm:ss";
+    private static final String MATCH_DATE = "[0-9]{2}\\/[0-9]{2}\\/[0-9]{4}\\s[0-9]{2}:[0-9]{2}:[0-9]{2}";
 
     @Override
     public void writeFile(Uri uri, List<ItemSerieEntity> data, FragmentActivity activity) throws IOException, OtiumException {
@@ -87,13 +88,15 @@ public class CSVFile implements IFileRules {
                 continue;
             }
             String[] params = text.split(",");
-            System.out.println(header.length);
-            System.out.println(params.length);
             if (params.length != header.length) {
-                throw new OtiumException("Los parametros de los datos no son correctos");
+                throw new OtiumException("La cantidad de parametros es incorrecta");
             }
             Log.d("params", text);
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+            if (!params[1].matches(MATCH_DATE) || !params[2].matches(MATCH_DATE)) {
+                throw new OtiumException("Las fechas no son validas, deben de seguir el formato: "
+                        + DATE_FORMAT);
+            }
             Date createAt = sdf.parse(params[1]);
             Date lastModified = sdf.parse(params[2]);
             int season = Integer.parseInt(params[4]);
