@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class FileJson {
 
-    @SerializedName("itemSerieEntity")
+    @SerializedName("items")
     @Expose
     private List<ItemSerieGson> itemSerieGson;
     @SerializedName("version")

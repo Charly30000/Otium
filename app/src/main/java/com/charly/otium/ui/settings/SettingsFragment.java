@@ -93,10 +93,55 @@ public class SettingsFragment extends Fragment {
     }
 
     private void importJson() {
-        Snackbar.make(binding.getRoot(),
-                "Metodo no implementado",
-                Snackbar.LENGTH_LONG).show();
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/json");
+        intent = Intent.createChooser(intent, "Elige el archivo a leer");
+
+        try {
+            arlReadJSON.launch(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+            Snackbar.make(binding.getRoot(),
+                    "Instala un administrador de archivos por favor",
+                    Snackbar.LENGTH_LONG).show();
+        }
     }
+
+    private ActivityResultLauncher<Intent> arlReadJSON = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        new ActivityResultCallback<ActivityResult>() {
+            @Override
+            public void onActivityResult(ActivityResult result) {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    Intent data = result.getData();
+                    if (data != null && data.getData() != null) {
+                        IFileRules jsonReader = new JSONFile();
+                        try {
+                            List<ItemSerieEntity> itemSerieEntities =
+                                    jsonReader.readFile(data.getData(), getActivity());
+                            for (ItemSerieEntity its: itemSerieEntities) {
+                                settingsViewModel.insertItemSerieEntity(its);
+                            }
+                            Snackbar.make(binding.getRoot(),
+                                    "Valores añadidos correctamente",
+                                    Snackbar.LENGTH_LONG).show();
+                        } catch (IOException | ParseException | OtiumException e) {
+                            e.printStackTrace();
+                            Snackbar.make(binding.getRoot(),
+                                    "Ha ocurrido un error: " + e.getMessage(),
+                                    Snackbar.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Snackbar.make(binding.getRoot(),
+                                    "Ha ocurrido un error un error inesperado: " + e.getMessage(),
+                                    Snackbar.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            }
+        }
+    );
 
     private void exportJson() {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);

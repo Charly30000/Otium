@@ -12,14 +12,18 @@ import com.charly.otium.models.entitiesGson.FileJson;
 import com.charly.otium.models.entitiesGson.ItemSerieGson;
 import com.google.gson.Gson;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class JSONFile implements IFileRules {
@@ -62,6 +66,14 @@ public class JSONFile implements IFileRules {
     public List<ItemSerieEntity> readFile(Uri uri, FragmentActivity activity) throws IOException, FileNotFoundException, OtiumException, ParseException {
         String json = "";
 
+        InputStream inputStream = activity.getContentResolver().openInputStream(uri);
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+
+        String text = "";
+        while ((text = br.readLine()) != null) {
+            json += text;
+        }
+
         Gson gson = new Gson();
         FileJson fileJson = gson.fromJson(json, FileJson.class);
         List<ItemSerieEntity> result = new ArrayList<>();
@@ -72,6 +84,18 @@ public class JSONFile implements IFileRules {
                     || itg.getAnnotation().contains("\\") || itg.getImage().contains("\\")) {
                 throw new OtiumException("El caracter \"\\\" no esta permitido, accion suspendida");
             }
+
+            if (!itg.getCreateAt().matches(MATCH_DATE) || !itg.getLastModification().matches(MATCH_DATE)) {
+                throw new OtiumException("Las fechas no son validas, deben de seguir el formato: "
+                        + DATE_FORMAT);
+            }
+            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+            Date createAt = sdf.parse(itg.getCreateAt());
+            Date lastMddification = sdf.parse(itg.getLastModification());
+            result.add(new ItemSerieEntity(0, itg.getTitle(), createAt, lastMddification,
+                    itg.getType(), itg.getSeason(), itg.getChapter(), itg.getState(), itg.getAnnotation(),
+                    itg.getImage()));
+
         }
 
         return result;
