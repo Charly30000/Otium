@@ -120,10 +120,16 @@ public class CSVFile implements IFileRules {
                 throw new OtiumException("No se pueden almacenar parametros con el caracter '\\'");
             }
 
-            result.add(new ItemSerieEntity(0, (String) data.get("title"), (Date) data.get("createAt"),
+            ItemSerieEntity its = new ItemSerieEntity(0, (String) data.get("title"), (Date) data.get("createAt"),
                     (Date) data.get("lastModification"), (String) data.get("type"), (int) data.get("season"),
                     (int) data.get("chapter"), (String) data.get("state"),
-                    (String) data.get("annotation"), (String) data.get("image")));
+                    (String) data.get("annotation"), (String) data.get("image"));
+
+            if (its.getTitle().isEmpty() || its.getSeason() < 0 || its.getChapter() < 0) {
+                throw new OtiumException("Deben de rellenarse todos los parametros necesarios");
+            }
+
+            result.add(its);
 
             count++;
         }

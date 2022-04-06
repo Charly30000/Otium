@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.charly.otium.common.State;
 import com.charly.otium.common.Type;
 import com.charly.otium.config.Config;
 import com.charly.otium.exceptions.OtiumException;
@@ -80,6 +81,11 @@ public class JSONFile implements IFileRules {
         List<ItemSerieGson> itgList = fileJson.getItemSerieGson();
 
         for (ItemSerieGson itg: itgList) {
+            if (itg.getTitle().isEmpty() || itg.getCreateAt().isEmpty() || itg.getLastModification().isEmpty() ||
+            itg.getType().isEmpty() || itg.getSeason() < 0 || itg.getChapter() < 0) {
+                throw new OtiumException("Deben de rellenarse todos los parametros necesarios");
+            }
+
             if (itg.getTitle().contains("\\") || itg.getType().contains("\\") || itg.getState().contains("\\")
                     || itg.getAnnotation().contains("\\") || itg.getImage().contains("\\")) {
                 throw new OtiumException("El caracter \"\\\" no esta permitido, accion suspendida");
@@ -89,6 +95,16 @@ public class JSONFile implements IFileRules {
                 throw new OtiumException("Las fechas no son validas, deben de seguir el formato: "
                         + DATE_FORMAT);
             }
+
+            String stateOk = validateState(itg.getState());
+            if (!stateOk.equals("")) {
+                throw new OtiumException(String.format("El state '%s' no es valido", stateOk));
+            }
+            String typeOk = validateType(itg.getType());
+            if (!typeOk.equals("")) {
+                throw new OtiumException(String.format("El type '%s' no es valido", stateOk));
+            }
+
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
             Date createAt = sdf.parse(itg.getCreateAt());
             Date lastModification = sdf.parse(itg.getLastModification());
@@ -99,5 +115,25 @@ public class JSONFile implements IFileRules {
         }
 
         return result;
+    }
+
+    private String validateType(String type) {
+        List<String> typesList = new Type().getAll();
+        for (String s: typesList) {
+            if (s.equals(type)) {
+                return "";
+            }
+        }
+        return type;
+    }
+
+    private String validateState(String state) {
+        List<String> statesList = new State().getAll();
+        for (String s: statesList) {
+            if (s.equals(state)) {
+                return "";
+            }
+        }
+        return state;
     }
 }
