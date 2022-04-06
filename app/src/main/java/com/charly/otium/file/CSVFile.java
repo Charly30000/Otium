@@ -105,15 +105,15 @@ public class CSVFile implements IFileRules {
             verifyState(params[6]);
 
             Map<String, Object> data = new HashMap<>();
-            data.put("title", params[0].replace("\\n", "\n").replace("\\c", ",").trim());
+            data.put("title", params[0].replace("\\c", ",").trim());
             data.put("createAt", createAt);
             data.put("lastModification", lastModified);
-            data.put("type", params[3].replace("\\n", "\n").replace("\\c", ",").trim());
+            data.put("type", params[3].replace("\\c", ",").trim());
             data.put("season", season);
             data.put("chapter", chapter);
-            data.put("state", params[6].replace("\\n", "\n").replace("\\c", ",").trim());
+            data.put("state", params[6].replace("\\c", ",").trim());
             data.put("annotation", params[7].replace("\\n", "\n").replace("\\c", ",").trim());
-            data.put("image", params[8].replace("\\n", "\n").replace("\\c", ",").trim());
+            data.put("image", params[8].replace("\\c", ",").trim());
             data.put("version", params[9]);
 
             if (cotainsBar(data)) {

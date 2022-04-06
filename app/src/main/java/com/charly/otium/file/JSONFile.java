@@ -91,8 +91,8 @@ public class JSONFile implements IFileRules {
             }
             SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
             Date createAt = sdf.parse(itg.getCreateAt());
-            Date lastMddification = sdf.parse(itg.getLastModification());
-            result.add(new ItemSerieEntity(0, itg.getTitle(), createAt, lastMddification,
+            Date lastModification = sdf.parse(itg.getLastModification());
+            result.add(new ItemSerieEntity(0, itg.getTitle(), createAt, lastModification,
                     itg.getType(), itg.getSeason(), itg.getChapter(), itg.getState(), itg.getAnnotation(),
                     itg.getImage()));
 
