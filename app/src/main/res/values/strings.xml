@@ -37,4 +37,7 @@
     <string name="btn_read_csv">Importar archivo CSV</string>
     <string name="btn_create_json">Exportar archivo Json (Recomendado)</string>
     <string name="btn_read_json">Importar archivo Json</string>
+    <string name="btn_add_list_series">Añadir mediante lista masiva</string>
+    <string name="massive_list_instructions">"Instrucciones de uso: (click para ver) \nIntroduce el Estado y el Tipo, dentro de la caja de texto deberas de introducir en cada linea el titulo de tu Tipo seleccionado.\nAl darle al boton de 'Guardar', se crearan todos tus tipos con valores predeterminados y con el Estado y el Tipo que has seleccionado"</string>
+    <string name="hint_example_massive_items">"Toy Story \nEl gran torino \nLa bella y la bestia \nAvatar"</string>
 </resources>

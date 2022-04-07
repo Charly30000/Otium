@@ -39,4 +39,12 @@
         android:text="@string/btn_read_json"
         android:textSize="16sp"
         app:icon="@android:drawable/ic_menu_save" />
+
+    <Button
+        android:id="@+id/btnAddListSerie"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add_list_series"
+        android:textSize="16sp"
+        app:icon="@android:drawable/ic_menu_edit" />
 </LinearLayout>

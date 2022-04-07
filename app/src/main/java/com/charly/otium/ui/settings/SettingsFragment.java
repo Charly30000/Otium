@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.charly.otium.AddMassiveListActivity;
 import com.charly.otium.databinding.FragmentSettingsBinding;
 import com.charly.otium.exceptions.OtiumException;
 import com.charly.otium.file.CSVFile;
@@ -39,7 +40,7 @@ public class SettingsFragment extends Fragment {
     private SettingsViewModel settingsViewModel;
     private FragmentSettingsBinding binding;
 
-    private Button btnCreateCsv, btnReadCsv, btnCreateJson, btnReadJson;
+    private Button btnCreateCsv, btnReadCsv, btnCreateJson, btnReadJson, btnAddListSerie;
 
     private List<ItemSerieEntity> listItemSerieEntity;
 
@@ -90,6 +91,17 @@ public class SettingsFragment extends Fragment {
                 importJson();
             }
         });
+        btnAddListSerie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initInputMassiveListIntent();
+            }
+        });
+    }
+
+    private void initInputMassiveListIntent() {
+        Intent intent = new Intent(getContext(), AddMassiveListActivity.class);
+        startActivity(intent);
     }
 
     private void importJson() {
@@ -201,6 +213,7 @@ public class SettingsFragment extends Fragment {
         btnReadCsv = binding.btnReadCsv;
         btnCreateJson = binding.btnCreateJson; 
         btnReadJson = binding.btnReadJson;
+        btnAddListSerie = binding.btnAddListSerie;
     }
 
     private void importCsv() {

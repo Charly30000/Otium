@@ -63,7 +63,6 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_serie);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initRepository();
         initArrays();
