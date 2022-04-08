@@ -130,26 +130,6 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
         arrayAdapterTypes = new ArrayAdapter<String>(getApplicationContext(),
                 android.R.layout.simple_spinner_dropdown_item, arrayListTypesString);
         spinnerType.setAdapter(arrayAdapterTypes);
-        /*
-        types = typeRepository.getAll();
-        types.observe(this, new Observer<List<TypeEntity>>() {
-            @Override
-            public void onChanged(List<TypeEntity> typeEntities) {
-                if (typeEntities == null || typeEntities.isEmpty()) {
-                    Snackbar.make(findViewById(android.R.id.content),
-                            "No hay tipos en la BBDD", Snackbar.LENGTH_LONG).show();
-                } else {
-                    for (TypeEntity ty: typeEntities) {
-                        arrayListTypesString.add(ty.getType());
-                        arrayListTypesEntity.add(ty);
-                    }
-                    arrayAdapterTypes = new ArrayAdapter<String>(getApplicationContext(),
-                            android.R.layout.simple_spinner_dropdown_item, arrayListTypesString);
-                    spinnerType.setAdapter(arrayAdapterTypes);
-                }
-            }
-        });
-         */
     }
 
     private void loadItemSeriesSpinner() {
@@ -255,15 +235,7 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
                     "No hay tipos en la BBDD", Snackbar.LENGTH_LONG).show();
             return;
         }
-        /*
-        int typeId = findType(stringType);
-        if (typeId == -1) {
-            Snackbar.make(findViewById(android.R.id.content),
-                    "No se ha encontrado el tipo que intentas seleccionar",
-                    Snackbar.LENGTH_LONG).show();
-            return;
-        }
-        */
+
         boolean isOk = checkStringValues(
                 title,
                 stringSeason,
@@ -314,17 +286,7 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
         }
 
     }
-/*
-    private int findType(String stringType) {
-        int id = -1;
-        for (TypeEntity et: arrayListTypesEntity) {
-            if (et.getType().equals(stringType)) {
-                id = et.getTypeId();
-            }
-        }
-        return id;
-    }
-*/
+
     private boolean checkStringValues(String... values) {
         for (String s: values) {
             if (s == null || s.isEmpty() || s.contains("\\")) {
@@ -339,10 +301,10 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
             int number = Integer.parseInt(editTextNumber.getText().toString());
             editTextNumber.setText(String.valueOf(++number));
         } catch (NumberFormatException ex) {
-            System.err.println(ex.getStackTrace());
+            ex.getStackTrace();
             Toast.makeText(this, "Error: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
-            System.err.println(ex.getStackTrace());
+            ex.getStackTrace();
             Toast.makeText(this, "Error: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
@@ -352,8 +314,10 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
             int number = Integer.parseInt(editTextNumber.getText().toString());
             editTextNumber.setText(String.valueOf(--number));
         } catch (NumberFormatException ex) {
+            ex.getStackTrace();
             Toast.makeText(this, "Error: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
         } catch (Exception ex) {
+            ex.getStackTrace();
             Toast.makeText(this, "Error: " + ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
