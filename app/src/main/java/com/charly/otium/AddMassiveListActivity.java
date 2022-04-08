@@ -118,9 +118,10 @@ public class AddMassiveListActivity extends AppCompatActivity implements View.On
                 return;
             }
             for (String title: titlesSplit) {
+                title.trim();
                 if (!title.isEmpty()) {
                     Date dateNow = new Date();
-                    ItemSerieEntity saveItemSerie = new ItemSerieEntity(0, title.trim(),
+                    ItemSerieEntity saveItemSerie = new ItemSerieEntity(0, title,
                             dateNow, dateNow, selectedType, 1, 1, selectedState,
                             "", "");
                     itemSerieRepository.insert(saveItemSerie);
