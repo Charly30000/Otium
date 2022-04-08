@@ -78,6 +78,7 @@ public abstract class OtiumDatabase extends RoomDatabase {
             typeDao.insert(new TypeEntity(8,"Otro"));
             */
             //Test
+            /*
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 1", new Date(), new Date(),
                     "Serie", 1, 2, State.ABANDONADO, "aaaaa", ""));
             itemSerieDao.insert(new ItemSerieEntity(0, "Test 2", new Date(), new Date(),
@@ -98,7 +99,7 @@ public abstract class OtiumDatabase extends RoomDatabase {
                     "Libro", 1, 2, State.FAVORITO, "", ""));
 
             Log.d("info", "Base de datos rellenada");
-
+            */
             return null;
         }
     }
