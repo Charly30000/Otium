@@ -2,7 +2,6 @@ package com.charly.otium.models.entitiesGson;
 
 import java.util.List;
 
-import com.charly.otium.models.entities.ItemSerieEntity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

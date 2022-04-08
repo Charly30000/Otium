@@ -2,14 +2,11 @@ package com.charly.otium;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
 
-import com.charly.otium.models.entities.TypeEntity;
 import com.charly.otium.repository.ItemSerieRepository;
 import com.charly.otium.repository.TypeRepository;
 
@@ -29,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         //checkCreateTypes();
         initDashboardActivity();
     }
-
+/*
     private void initRepository() {
         itemSerieRepository = new ItemSerieRepository(getApplication());
         typeRepository = new TypeRepository(getApplication());
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         initDashboardActivity();
     }
-
+*/
     private void initDashboardActivity() {
         new Handler().postDelayed(new Runnable() {
             @Override

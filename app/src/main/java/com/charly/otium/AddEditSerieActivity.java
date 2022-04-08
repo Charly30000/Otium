@@ -8,7 +8,6 @@ import androidx.lifecycle.Observer;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -19,9 +18,7 @@ import android.widget.Toast;
 import com.charly.otium.common.State;
 import com.charly.otium.common.Type;
 import com.charly.otium.models.entities.ItemSerieEntity;
-import com.charly.otium.models.entities.TypeEntity;
 import com.charly.otium.repository.ItemSerieRepository;
-import com.charly.otium.repository.TypeRepository;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;

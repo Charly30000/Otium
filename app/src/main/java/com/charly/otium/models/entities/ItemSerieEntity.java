@@ -8,8 +8,6 @@ import androidx.room.TypeConverters;
 
 import com.charly.otium.config.Config;
 import com.charly.otium.models.converters.DateConverter;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 

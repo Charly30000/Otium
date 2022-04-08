@@ -5,10 +5,8 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import com.charly.otium.dao.ItemSerieDao;
-import com.charly.otium.dao.TypeDao;
 import com.charly.otium.database.OtiumDatabase;
 import com.charly.otium.models.entities.ItemSerieEntity;
-import com.charly.otium.models.entities.TypeEntity;
 
 import java.util.Date;
 import java.util.List;
