@@ -238,10 +238,9 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
                 stringSeason,
                 stringChapter,
                 stringState,
-                stringType,
-                annotation
+                stringType
         );
-        if (!isOk) {
+        if (!isOk || annotation.contains("\\")) {
             Snackbar.make(findViewById(android.R.id.content),
                     "Completa todos los campos, el caracter \"\\\" esta prohibido",
                     Snackbar.LENGTH_LONG).show();

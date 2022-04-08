@@ -2,7 +2,6 @@ package com.charly.otium.database;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -10,14 +9,12 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.charly.otium.common.State;
 import com.charly.otium.config.Config;
 import com.charly.otium.dao.ItemSerieDao;
 import com.charly.otium.dao.TypeDao;
 import com.charly.otium.models.entities.ItemSerieEntity;
 import com.charly.otium.models.entities.TypeEntity;
 
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
