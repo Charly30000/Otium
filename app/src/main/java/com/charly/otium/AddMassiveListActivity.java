@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.charly.otium.common.State;
 import com.charly.otium.common.Type;
@@ -94,13 +95,13 @@ public class AddMassiveListActivity extends AppCompatActivity implements View.On
         try {
             String titles = etMassive.getText().toString().trim();
             if (titles == null || titles.isEmpty()) {
-                Snackbar.make(getCurrentFocus(),
+                Snackbar.make(findViewById(android.R.id.content),
                         "Introduce algun titulo",
                         Snackbar.LENGTH_LONG).show();
                 return;
             }
             if (titles.contains("\\")) {
-                Snackbar.make(getCurrentFocus(),
+                Snackbar.make(findViewById(android.R.id.content),
                         "No se admite el caracter '\\', no se guardara",
                         Snackbar.LENGTH_LONG).show();
                 return;
@@ -111,7 +112,7 @@ public class AddMassiveListActivity extends AppCompatActivity implements View.On
             String selectedType = spinnerTypeMassive.getSelectedItem().toString();
             if (selectedState == null || selectedType == null
                     || selectedState.isEmpty() || selectedType.isEmpty()) {
-                Snackbar.make(getCurrentFocus(),
+                Snackbar.make(findViewById(android.R.id.content),
                         "Debes de seleccionar un Estado y un Tipo",
                         Snackbar.LENGTH_LONG).show();
                 return;
@@ -127,12 +128,12 @@ public class AddMassiveListActivity extends AppCompatActivity implements View.On
             }
 
             etMassive.setText("");
-            Snackbar.make(getCurrentFocus(),
+            Snackbar.make(findViewById(android.R.id.content),
                     "Titulos insertados correctamente",
                     Snackbar.LENGTH_LONG).show();
         } catch (Exception ex) {
             ex.printStackTrace();
-            Snackbar.make(getCurrentFocus(),
+            Snackbar.make(findViewById(android.R.id.content),
                     "Error inesperado: " + ex.getMessage(),
                     Snackbar.LENGTH_LONG).show();
         }
