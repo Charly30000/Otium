@@ -2,6 +2,7 @@ package com.charly.otium;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
@@ -60,6 +61,7 @@ public class AddEditSerieActivity extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_serie);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         initRepository();
         initArrays();

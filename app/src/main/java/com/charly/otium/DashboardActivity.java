@@ -7,6 +7,7 @@ import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,6 +28,7 @@ public class DashboardActivity extends AppCompatActivity {
 
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         setSupportActionBar(binding.appBarDashboard.toolbar);
         binding.appBarDashboard.fab.setOnClickListener(new View.OnClickListener() {

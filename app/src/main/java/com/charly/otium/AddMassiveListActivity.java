@@ -1,6 +1,7 @@
 package com.charly.otium;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.os.Bundle;
 import android.view.View;
@@ -37,6 +38,7 @@ public class AddMassiveListActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_massive_list);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         findViews();
         clickListeners();
@@ -90,18 +92,19 @@ public class AddMassiveListActivity extends AppCompatActivity implements View.On
 
     private void saveMassive() {
         String titles = etMassive.getText().toString().trim();
+        if (titles == null || titles.isEmpty()) {
+            Snackbar.make(getCurrentFocus(),
+                    "Introduce algun titulo",
+                    Snackbar.LENGTH_LONG).show();
+            return;
+        }
         if (titles.contains("\\")) {
             Snackbar.make(getCurrentFocus(),
                     "No se admite el caracter '\\', no se guardara",
                     Snackbar.LENGTH_LONG).show();
             return;
         }
-        if (titles.isEmpty()) {
-            Snackbar.make(getCurrentFocus(),
-                    "Introduce algun titulo",
-                    Snackbar.LENGTH_LONG).show();
-            return;
-        }
+
         String[] titlesSplit = titles.split("\n");
         String selectedState = spinnerStateMassive.getSelectedItem().toString();
         String selectedType = spinnerTypeMassive.getSelectedItem().toString();

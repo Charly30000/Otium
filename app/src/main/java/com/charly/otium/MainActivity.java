@@ -1,6 +1,7 @@
 package com.charly.otium;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.LiveData;
 
 import android.content.Intent;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         //initRepository();
         //checkCreateTypes();
