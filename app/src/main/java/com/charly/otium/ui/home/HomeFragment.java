@@ -40,7 +40,7 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
 
-        MyItemsSeriesRecyclerViewAdapter adapter = new MyItemsSeriesRecyclerViewAdapter();
+        MyItemsSeriesRecyclerViewAdapter adapter = new MyItemsSeriesRecyclerViewAdapter(homeViewModel);
         recyclerView.setAdapter(adapter);
 
         homeViewModel.getAllItemSerieEntity().observe(getActivity(), new Observer<List<ItemSerieEntity>>() {

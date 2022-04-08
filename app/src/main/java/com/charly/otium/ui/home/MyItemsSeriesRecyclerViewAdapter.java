@@ -21,8 +21,11 @@ public class MyItemsSeriesRecyclerViewAdapter extends RecyclerView.Adapter<MyIte
     private List<ItemSerieEntity> mValues;
     private OnItemClickListener listener;
 
-    public MyItemsSeriesRecyclerViewAdapter() {
+    private HomeViewModel homeViewModel;
+
+    public MyItemsSeriesRecyclerViewAdapter(HomeViewModel homeViewModel) {
         mValues = new ArrayList<>();
+        this.homeViewModel = homeViewModel;
     }
 
     @Override
@@ -49,14 +52,28 @@ public class MyItemsSeriesRecyclerViewAdapter extends RecyclerView.Adapter<MyIte
         holder.btnAddChapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Added " + holder.mItem.getTitle(), Snackbar.LENGTH_LONG)
+                ItemSerieEntity its = holder.mItem;
+                int lastChapter = its.getChapter();
+                its.setChapter(its.getChapter() + 1);
+                homeViewModel.updateItemSerieEntity(its);
+                notifyDataSetChanged();
+                String message = String.format("Aumentado episodio de '%s': %dx%d --> %dx%d",
+                        its.getTitle(), its.getSeason(), lastChapter, its.getSeason(), its.getChapter());
+                Snackbar.make(v, message, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
         holder.btnSubstractChapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Substracted " + holder.mItem.getTitle(), Snackbar.LENGTH_LONG)
+                ItemSerieEntity its = holder.mItem;
+                int lastChapter = its.getChapter();
+                its.setChapter(its.getChapter() - 1);
+                homeViewModel.updateItemSerieEntity(its);
+                notifyDataSetChanged();
+                String message = String.format("Restado episodio de '%s': %dx%d --> %dx%d",
+                        its.getTitle(), its.getSeason(), lastChapter, its.getSeason(), its.getChapter());
+                Snackbar.make(v, message, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
