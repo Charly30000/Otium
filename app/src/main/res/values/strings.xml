@@ -40,4 +40,5 @@
     <string name="btn_add_list_series">Añadir mediante lista masiva</string>
     <string name="massive_list_instructions">"Instrucciones de uso: (click para ver) \nIntroduce el Estado y el Tipo, dentro de la caja de texto deberas de introducir en cada linea el titulo de tu Tipo seleccionado.\nAl darle al boton de 'Guardar', se crearan todos tus tipos con valores predeterminados y con el Estado y el Tipo que has seleccionado"</string>
     <string name="hint_example_massive_items">"Toy Story \nEl gran torino \nLa bella y la bestia \nAvatar"</string>
+    <string name="sv_find_title">Buscar titulo</string>
 </resources>

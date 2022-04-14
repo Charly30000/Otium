@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -24,6 +25,7 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
     private FragmentHomeBinding binding;
+    private SearchView svFindByTitle;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +37,8 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         //---------------------
+
+        svFindByTitle = binding.svFindByTitle;
 
         RecyclerView recyclerView = root.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -57,6 +61,20 @@ public class HomeFragment extends Fragment {
                 intent.putExtra(AddEditSerieActivity.EXTRA_IS_MODIFYING, true);
                 intent.putExtra(AddEditSerieActivity.EXTRA_ID_ITEM_SERIE, itemSerieEntity.getItemSerieId());
                 startActivity(intent);
+            }
+        });
+
+        svFindByTitle.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String filteredText) {
+                adapter.filtered(filteredText);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String filteredText) {
+                adapter.filtered(filteredText);
+                return false;
             }
         });
         //---------------------

@@ -15,17 +15,20 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MyItemsSeriesRecyclerViewAdapter extends RecyclerView.Adapter<MyItemsSeriesRecyclerViewAdapter.ViewHolder> {
 
-    private List<ItemSerieEntity> mValues;
+    private List<ItemSerieEntity> itemSerieEntityList;
+    private List<ItemSerieEntity> originalList;
     private OnItemClickListener listener;
 
     private HomeViewModel homeViewModel;
 
     public MyItemsSeriesRecyclerViewAdapter(HomeViewModel homeViewModel) {
-        mValues = new ArrayList<>();
         this.homeViewModel = homeViewModel;
+        this.itemSerieEntityList = new ArrayList<>();
+        this.originalList = new ArrayList<>();
     }
 
     @Override
@@ -39,7 +42,7 @@ public class MyItemsSeriesRecyclerViewAdapter extends RecyclerView.Adapter<MyIte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+        holder.mItem = itemSerieEntityList.get(position);
 
         // TextView
         holder.tvTitle.setText(holder.mItem.getTitle());
@@ -82,11 +85,12 @@ public class MyItemsSeriesRecyclerViewAdapter extends RecyclerView.Adapter<MyIte
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return itemSerieEntityList.size();
     }
 
     public void setItemSeries(List<ItemSerieEntity> itemSerieEntities) {
-        this.mValues = itemSerieEntities;
+        this.itemSerieEntityList = itemSerieEntities;
+        originalList.addAll(itemSerieEntityList);
         notifyDataSetChanged();
     }
 
@@ -96,6 +100,29 @@ public class MyItemsSeriesRecyclerViewAdapter extends RecyclerView.Adapter<MyIte
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
+    }
+
+    public void filtered(String findText) {
+        int lengthFind = findText.length();
+        if (lengthFind == 0) {
+            itemSerieEntityList.clear();
+            itemSerieEntityList.addAll(originalList);
+        } else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                List<ItemSerieEntity> collection = itemSerieEntityList.stream()
+                        .filter(i -> i.getTitle().toLowerCase().contains(findText.toLowerCase()))
+                        .collect(Collectors.toList());
+                itemSerieEntityList.clear();
+                itemSerieEntityList.addAll(collection);
+            } else {
+                for (ItemSerieEntity its: originalList) {
+                    if (its.getTitle().toLowerCase().contains(findText.toLowerCase())) {
+                        itemSerieEntityList.add(its);
+                    }
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -121,7 +148,7 @@ public class MyItemsSeriesRecyclerViewAdapter extends RecyclerView.Adapter<MyIte
                 public void onClick(View v) {
                     int position = getBindingAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        listener.onItemClick(mValues.get(position));
+                        listener.onItemClick(itemSerieEntityList.get(position));
                     }
                 }
             });

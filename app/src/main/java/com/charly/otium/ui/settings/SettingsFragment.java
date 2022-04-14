@@ -158,7 +158,7 @@ public class SettingsFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("application/json");
-        intent.putExtra(Intent.EXTRA_TITLE, "invoice.json");
+        intent.putExtra(Intent.EXTRA_TITLE, "Otium.json");
         intent = Intent.createChooser(intent, "Elige la ubicacion");
 
         try {
@@ -271,7 +271,7 @@ public class SettingsFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("text/comma-separated-values");
-        intent.putExtra(Intent.EXTRA_TITLE, "invoice.csv");
+        intent.putExtra(Intent.EXTRA_TITLE, "Otium.csv");
         intent = Intent.createChooser(intent, "Elige la ubicacion");
 
         try {
