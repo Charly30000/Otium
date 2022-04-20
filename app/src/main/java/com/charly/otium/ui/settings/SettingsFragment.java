@@ -131,9 +131,7 @@ public class SettingsFragment extends Fragment {
                         try {
                             List<ItemSerieEntity> itemSerieEntities =
                                     jsonReader.readFile(data.getData(), getActivity());
-                            for (ItemSerieEntity its: itemSerieEntities) {
-                                settingsViewModel.insertItemSerieEntity(its);
-                            }
+                            upsertItemSerie(itemSerieEntities);
                             Snackbar.make(binding.getRoot(),
                                     "Valores añadidos correctamente",
                                     Snackbar.LENGTH_LONG).show();
@@ -243,9 +241,7 @@ public class SettingsFragment extends Fragment {
                             try {
                                 List<ItemSerieEntity> itemSerieEntities =
                                         csvReader.readFile(data.getData(), getActivity());
-                                for (ItemSerieEntity its: itemSerieEntities) {
-                                    settingsViewModel.insertItemSerieEntity(its);
-                                }
+                                upsertItemSerie(itemSerieEntities);
                                 Snackbar.make(binding.getRoot(),
                                         "Valores añadidos correctamente",
                                         Snackbar.LENGTH_LONG).show();
@@ -265,6 +261,28 @@ public class SettingsFragment extends Fragment {
                 }
             }
     );
+
+    private void upsertItemSerie(List<ItemSerieEntity> itemSerieEntities) {
+        List<ItemSerieEntity> copyItemSerieList = new ArrayList<>();
+        copyItemSerieList.addAll(listItemSerieEntity);
+        boolean finded = false;
+        for (ItemSerieEntity itsNew: itemSerieEntities) {
+            for (ItemSerieEntity itsCopy: copyItemSerieList) {
+                if (itsNew.getTitle().toLowerCase().equals(itsCopy.getTitle().toLowerCase())) {
+                    if (itsNew.getLastModification().after(itsCopy.getLastModification())) {
+                        itsNew.setItemSerieId(itsCopy.getItemSerieId());
+                        settingsViewModel.updateItemSerieEntity(itsNew);
+                    }
+                    finded = true;
+                    break;
+                }
+            }
+            if (!finded) {
+                settingsViewModel.insertItemSerieEntity(itsNew);
+                finded = false;
+            }
+        }
+    }
 
     public void exportCsv() {
 
