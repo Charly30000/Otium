@@ -52,7 +52,7 @@ public class JSONFile implements IFileRules {
                     its.getState().trim(), its.getAnnotation().trim(), its.getImage().trim()));
         }
 
-        FileJson fileJson = new FileJson(itemSerieGsonList, Config.VERSION_APP, new Type().getAll());
+        FileJson fileJson = new FileJson(itemSerieGsonList, Config.FILE_VERSION_RW_ACTUAL, new Type().getAll());
         String json = gson.toJson(fileJson);
 
         OutputStream outputStream = activity.getContentResolver().openOutputStream(uri);

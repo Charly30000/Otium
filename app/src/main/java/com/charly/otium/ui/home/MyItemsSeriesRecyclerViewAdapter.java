@@ -103,25 +103,21 @@ public class MyItemsSeriesRecyclerViewAdapter extends RecyclerView.Adapter<MyIte
     }
 
     public void filtered(String findText) {
-        int lengthFind = findText.length();
-        if (lengthFind == 0) {
-            itemSerieEntityList.clear();
-            itemSerieEntityList.addAll(originalList);
+        itemSerieEntityList.clear();
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            List<ItemSerieEntity> collection = originalList.stream()
+                    .filter(i -> i.getTitle().toLowerCase().contains(findText.toLowerCase()))
+                    .collect(Collectors.toList());
+            itemSerieEntityList.addAll(collection);
         } else {
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                List<ItemSerieEntity> collection = itemSerieEntityList.stream()
-                        .filter(i -> i.getTitle().toLowerCase().contains(findText.toLowerCase()))
-                        .collect(Collectors.toList());
-                itemSerieEntityList.clear();
-                itemSerieEntityList.addAll(collection);
-            } else {
-                for (ItemSerieEntity its: originalList) {
-                    if (its.getTitle().toLowerCase().contains(findText.toLowerCase())) {
-                        itemSerieEntityList.add(its);
-                    }
+            for (ItemSerieEntity its: originalList) {
+                if (its.getTitle().toLowerCase().contains(findText.toLowerCase())) {
+                    itemSerieEntityList.add(its);
                 }
             }
         }
+
         notifyDataSetChanged();
     }
 

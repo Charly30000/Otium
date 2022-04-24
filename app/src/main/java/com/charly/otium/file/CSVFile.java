@@ -53,7 +53,7 @@ public class CSVFile implements IFileRules {
                     itsGood.getTitle(), createAtDate, lastModifiedDate,
                     itsGood.getType(), itsGood.getSeason(),
                     itsGood.getChapter(), itsGood.getState(), itsGood.getAnnotation(), itsGood.getImage(),
-                    Config.VERSION_APP);
+                    Config.FILE_VERSION_RW_ACTUAL);
 
             bw.write(itsResult);
         }
